@@ -1,0 +1,36 @@
+{
+  "posts": [
+    {
+      "id": "1",
+      "title": "등록연습",
+      "author": "user99"
+    }
+  ],
+  "comments": [
+    {
+      "postid": 1,
+      "body": "수정완",
+      "id": "1"
+    },
+    {
+      "id": "644a",
+      "body": "두번째 댓글",
+      "postid": 2
+    },
+    {
+      "id": "bd7b",
+      "body": "두번째 댓글",
+      "postid": 2
+    },
+    {
+      "id": "16ec",
+      "body": "두번째 댓글",
+      "postid": 2
+    },
+    {
+      "id": "6e26",
+      "body": "두번째 댓글",
+      "postid": 1
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+// class.js
+// 객체(Object) - 학생(개념) - 학생(실체)
+//               클래스(정의) - 인스턴스(실체)
+class Student {
+  //값을 저장(속성)   --> 학생번호,이름,키,몸무게ㅡ점수...
+  constructor(studNo,studName,height) {
+    this.studNo = studNo;
+    this.studName = studName;
+    this.height = height;
+  }
+  //동작을 저장(메소드)
+  showInfo(){
+    return `학번은 ${this.studNo},이름은 ${this.studName}`
+  }
+}
+//인스턴스 생성
+const s1 = new Student('S001','홍길동',179.7)
+console.log(s1.showInfo())
+const s2 = new Student('S002','홍진아',164.7)
+
+// 인스턴스 (객체=object),
+const obj = {
+  name: `hong`,
+  age : 20,
+  friends : ['kim','park','cheon','kook'],
+  pets: [
+    {name : '멍뭉이', age: 3, friends : ["누렁이","멍멍이"]},
+    {name: '야옹이', age:2}
+  ],
+  showInfo : function() {
+    return `이름은 ${this.name}`;
+  },
+};
+console.log(obj["pets"][0]['friends'][0]);
+console.log(window)
+
+// class Student
+function Member(memberNo,memberName) {
+  this.memberNo = memberNo;
+  this.memverame =  memberName;
+  this.showInfo = function(){
+      return `번호는 ${this.memberNo},이름${this.memberName}`;
+    };
+
+}
+const m1 = new Member('M001',"User01")
+console.log(window.showInfo())
+
+

@@ -1,4 +1,4 @@
-const {ary,ore} = require("./data").default
+const {ary,ore} = require("./data")
 
 // console.log(ary)
 
