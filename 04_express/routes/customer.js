@@ -27,10 +27,17 @@ router.post('/customer', (req,res) =>{
   res.send("post방식 요청.");
 });
 
-// Get요청(parameter로 처리.)
+// Get요청(parameter로 처리.)     => req.params 처리가능
+// post요청(body에 데이터가 포함되서 옴(req.body) => 해석 하기 위한 기능 body-parser )
 router.post('/login',(req,res) => {
   console.log(req.body)
   res.send("login page")
+})
+
+// compression() 미들웨어 http://localhsot:3000/customer/download
+router.get('/download',(req,res) =>{
+  // res.send('compression() 모듈적용.');
+  res.download(path.join(__dirname,'..','cyber.jpg'))
 })
 
 
