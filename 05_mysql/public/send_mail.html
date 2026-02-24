@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>메일 발송</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="mail-container">
+    <div class="mail-header">
+      <h2>새 메일 작성</h2>
+      <p>안전하고 빠르게 메일을 발송하세요.</p>
+    </div>
+
+    <form action="/send-email" method="POST" class="mail-form">
+      
+      <div class="form-group">
+        <label for="sender">발신자</label>
+        <input type="email" id="sender" name="sender" placeholder="보내는 사람의 이메일" required>
+      </div>
+
+      <div class="form-group">
+        <label for="recipient">수신자</label>
+        <input type="email" id="recipient" name="recipient" placeholder="받는 사람의 이메일" required>
+      </div>
+
+      <div class="form-group">
+        <label for="subject">제목</label>
+        <input type="text" id="subject" name="subject" placeholder="메일 제목을 입력하세요" required>
+      </div>
+
+      <div class="form-group">
+        <label for="content">내용</label>
+        <textarea id="content" name="content" rows="10" placeholder="메일 내용을 작성해주세요" required></textarea>
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="btn-submit">메일 보내기</button>
+      </div>
+    </form>
+  </div>
+  <script>
+    document.querySelector('.mail-form').addEventListener('submit',(e) => {
+      e.preventDefault(); // form submit기본기능 차단 .
+      // 필요항목
+      const from = document.querySelector('#sender').value;
+      const to = document.querySelector('#recipient').value;
+      const subject = document.querySelector('#subject').value;
+      const content = document.querySelector('#content').value
+      if (!from || !to || !subject || !content) {
+        alert("필수 항목 입력. ");
+        return; 
+      }
+      fetch('./api/mail' ,{
+        method:'post',
+        headers: {'Content-Type':'application/json'},
+        body:JSON.stringify({
+          from,to,subject,content
+        })
+      })
+      .then((resp) => resp.json())
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((err) => console.log(err))
+    })
+  </script>
+</body>
+</html>

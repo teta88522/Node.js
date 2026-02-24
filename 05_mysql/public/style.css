@@ -1,0 +1,128 @@
+/* 웹 폰트 로드 (Pretendard) */
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+
+/* 기본 초기화 */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
+  background-color: #f4f7f9; /* 눈이 편안한 아주 밝은 회색 배경 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  color: #333;
+}
+
+/* 메인 폼 컨테이너 */
+.mail-container {
+  background-color: #ffffff;
+  width: 100%;
+  max-width: 540px;
+  padding: 40px;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04); /* 부드러운 그림자 */
+  margin: 20px;
+}
+
+/* 헤더 영역 */
+.mail-header {
+  margin-bottom: 32px;
+  text-align: center;
+}
+
+.mail-header h2 {
+  font-size: 24px;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 8px;
+}
+
+.mail-header p {
+  font-size: 14px;
+  color: #6b7280;
+}
+
+/* 폼 레이아웃 */
+.mail-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* 개별 입력 그룹 */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-group label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #374151;
+}
+
+/* 입력 필드 (input, textarea) 스타일 */
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: 14px 16px;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  font-size: 15px;
+  font-family: inherit;
+  color: #111827;
+  background-color: #f9fafb;
+  transition: all 0.2s ease;
+}
+
+/* 입력 필드 클릭 시 포커스 효과 */
+.form-group input:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: #4f46e5; /* 세련된 인디고 블루 */
+  background-color: #ffffff;
+  box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1);
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+  color: #9ca3af;
+}
+
+.form-group textarea {
+  resize: vertical;
+  min-height: 180px;
+}
+
+/* 전송 버튼 영역 */
+.form-actions {
+  margin-top: 12px;
+}
+
+/* 전송 버튼 스타일 */
+.btn-submit {
+  width: 100%;
+  padding: 16px;
+  background-color: #4f46e5;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.btn-submit:hover {
+  background-color: #4338ca;
+}
+
+.btn-submit:active {
+  transform: translateY(1px); /* 클릭 시 살짝 눌리는 효과 */
+}
