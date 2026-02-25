@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Space Excel Uploader</title>
+    <link rel="stylesheet" href="style2.css">
+</head>
+<body>
+    <div class="space-container">
+        <div class="upload-box">
+            <h2>DATA TRANSMISSION</h2>
+            <p>서버로 전송할 엑셀 파일을 선택하세요.</p>
+            
+            <form class="exl">
+                <div class="file-drop-area">
+                    <span class="file-message">클릭하거나 파일을 여기로 드래그하세요</span>
+                    <input type="file" name="excelFile" class="file-input" accept=".xlsx, .xls, .csv" required>
+                </div>
+                
+                <button type="submit" class="launch-btn">업로드 시작 (LAUNCH)</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="style.js"></script>
+    <script>
+      document.querySelector('.exl').addEventListener('submit',(e) =>{
+        e.preventDefault();
+        const file = document.querySelector('.file-input').files[0]
+        console.log(file)
+        const formdata = new FormData()
+        formdata.append("excelFile",file)
+        console.log(formdata)
+
+        fetch('/api/excel_upload',{
+          method : 'post',
+          body : formdata
+        } )
+      .then((resp) => resp.json())
+      .then((data) => {
+        console.log(data); //서보의 정보
+
+        if(data.retCode == "OK"){
+          console.log(data.retCode)
+          alert("메일 발송");
+          location.reload();
+        }
+        else{
+          console.log(data.retCode)
+
+          alert("발송실패")
+        }
+      })
+      .catch((err) => console.log(err))
+    })
+    </script>
+</body>
+</html>

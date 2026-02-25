@@ -1,6 +1,9 @@
 // nodemailer.js
 const nodemailer = require("nodemailer");
 
+// .env 환경변수
+require("dotenv").config()
+
 const gmailconfig = {}
 const daumconfig = {
   host:"smtp.daum.net", //호스트 주소
@@ -32,4 +35,19 @@ const send = async (data) => {
   })
 }
 
+// send({from:'swotjd9805@daum.net',
+//   to:'swotjd9805@naver.com',
+//   subject : '파일첨부테스트',
+//   html : '<p>파일 첨부 연습</p>',
+//   attachments : [
+//     {
+//       filename : '딸기.jpg',
+//       path : __dirname + '/uploads/'+"딸기.jpg"
+//     }
+//   ]
+  
+// }
+// )
+
+// console.log("main send.....");
 module.exports = { send }

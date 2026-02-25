@@ -1,4 +1,5 @@
 const mysql = require('mysql')
+require('dotenv').config();
 const sql = require('./sql')
 
 // connection pool
@@ -18,7 +19,7 @@ const query = async (alias, values) => {
               ,values       // 2) query parameter=> [값1,값2....]
               ,(error, results) => {
                 if(error) {
-                  console.log(error);
+                  // console.log(error);
                   reject({error});
                 }
                 else {

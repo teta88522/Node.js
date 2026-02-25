@@ -1,5 +1,6 @@
 // app.js
 const express = require('express');
+const path = require('path')
 
 // .env 환경변수
 require("dotenv").config()
@@ -9,6 +10,8 @@ require("dotenv").config()
 const mysql = require("./index");
 const encrypto = require("./crypto");
 const nodemailer = require("./nodemailer")
+const {upload} = require("./multer")
+const {excel_run} = require("./excel")
 
 // express 인스턴스
 const app = express();
@@ -16,7 +19,9 @@ const app = express();
 //body-parser.
 app.use(express.json())
 
-// 라우팅.
+app.use(express.static("public"));
+
+// 라우팅.s
 // 1. 전체목록 조회, 리소스+요청방식 => CRUD(REST방식)
 app.get('/api/customer',async (req, res) => {
   const result = await mysql.query('customerList')
@@ -65,18 +70,55 @@ app.post('/api/login', async (req,res) => {
 }) 
 
 //6. 메일 발송
-app.post('/api/mail', async (req,res) => {
-  const {from, to, subject, text} = req.body;
+app.post('/api/mail', upload.single('myfile'), async (req,res) => {
+  const {from, to, subject, content} = req.body;
+  console.log(req.body);
 
-  const html = (text||'').split("\n")
+  // multi 라인으로 변경
+  const html = content.split("\n")
               .map((elem) => `<p>${elem}</p>`)
               .join("");
 
-  const result = nodemailer.send({from, to, subject, html})
-  res.json(result);
+  let attachments;
+  // 메일정보. 파일첨부 여부에 따라 처리
+  if(req.file == undefined){
+    attachments = null
+  }
+  else{
+  attachments = [{filename : req.file.filename,
+    path : req.file.path}]  //path.join(__dirname, req.file.destination, req.file.filename)
+    
+  }
+  
+  const postdata = {
+    from, 
+    to, 
+    subject, 
+    html,
+    attachments }
+
+  const result = await nodemailer.send(postdata)
+  // res.json(result); 이건 이벤트 처리 방식
+  // res.send(result);
+  if(result.messageId){
+    res.json({retCode : "OK"});
+  }
+  else {
+    res.json({retCode : 'NG'})
+  }
 })
 
-app.use(express.static("public"));
+//엑셀파일 첨부 후 db.
+app.post("/api/excel_upload", upload.single('excelFile'), async(req,res) =>{
+  console.log(req)
+  excel_run(req.file.path);
+  res.send("upload OK")
+}
+)
+
+
+
+
 
 //서버 열기
 app.listen(3000,() =>{

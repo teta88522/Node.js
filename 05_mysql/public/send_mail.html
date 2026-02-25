@@ -13,16 +13,16 @@
       <p>안전하고 빠르게 메일을 발송하세요.</p>
     </div>
 
-    <form action="/send-email" method="POST" class="mail-form">
+    <form action="./api/mail" method="POST" class="mail-form" enctype="multipart/form-data">
       
       <div class="form-group">
         <label for="sender">발신자</label>
-        <input type="email" id="sender" name="sender" placeholder="보내는 사람의 이메일" required>
+        <input type="email" id="sender" name="from" placeholder="보내는 사람의 이메일" required>
       </div>
 
       <div class="form-group">
         <label for="recipient">수신자</label>
-        <input type="email" id="recipient" name="recipient" placeholder="받는 사람의 이메일" required>
+        <input type="email" id="recipient" name="to" placeholder="받는 사람의 이메일" required>
       </div>
 
       <div class="form-group">
@@ -34,6 +34,10 @@
         <label for="content">내용</label>
         <textarea id="content" name="content" rows="10" placeholder="메일 내용을 작성해주세요" required></textarea>
       </div>
+      <div class="form-group">
+        <label for="files">파일 첨부</label>
+        <input type="file" id="files" name="myfile" >
+      </div>
 
       <div class="form-actions">
         <button type="submit" class="btn-submit">메일 보내기</button>
@@ -43,6 +47,7 @@
   <script>
     document.querySelector('.mail-form').addEventListener('submit',(e) => {
       e.preventDefault(); // form submit기본기능 차단 .
+      console.log(e)
       // 필요항목
       const from = document.querySelector('#sender').value;
       const to = document.querySelector('#recipient').value;
@@ -52,16 +57,35 @@
         alert("필수 항목 입력. ");
         return; 
       }
+      console.log(from)
+
+      const formData = new FormData(); // multipart 요청
+      formData.append("from", from);
+      formData.append("to",to);
+      formData.append("subject",subject);
+      formData.append("content", content);
+      formData.append("myfile",e.target[4].files[0]);
+      console.log(formData)
+
       fetch('./api/mail' ,{
         method:'post',
-        headers: {'Content-Type':'application/json'},
-        body:JSON.stringify({
-          from,to,subject,content
-        })
+        // headers: {'Content-Type':'application/json'},
+        body:formData
       })
       .then((resp) => resp.json())
       .then((data) => {
-        console.log(data);
+        console.log(data); //서보의 정보
+
+        if(data.retCode == "OK"){
+          console.log(data.retCode)
+          alert("메일 발송");
+          location.reload();
+        }
+        else{
+          console.log(data.retCode)
+
+          alert("발송실패")
+        }
       })
       .catch((err) => console.log(err))
     })
