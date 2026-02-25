@@ -1,6 +1,7 @@
 {
   "scripts": {
-    "dev": "nodemon app.js"
+    "dev": "nodemon app.js",
+    "start": "nodemon homework.js"
   },
   "dependencies": {
     "crypto": "^1.0.1",
@@ -8,11 +9,14 @@
     "express": "^5.2.1",
     "multer": "^2.0.2",
     "mysql": "^2.18.1",
+    "mysql2": "^3.18.0",
     "node-cron": "^4.2.1",
     "nodemailer": "^8.0.1",
-    "nodemon": "^3.1.14",
     "path": "^0.12.7",
     "winston": "^3.19.0",
     "xlsx": "^0.18.5"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
   }
 }
