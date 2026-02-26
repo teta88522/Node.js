@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="login.css">
+  <title>Document</title>
+</head>
+<body>
+
+    <div class="login-box">
+        <h2>LOGIN</h2>
+        <form id="login-form">
+            <div class="input-group">
+                <input type="text" id="login_id" placeholder="아이디" required>
+            </div>
+            <div class="input-group">
+                <input type="password" id="password" placeholder="비밀번호" required>
+            </div>
+            <button type="submit" class="login-btn">로그인</button>
+        </form>
+        
+        <div class="links">
+            <a href="#">비밀번호 찾기</a> | <a href="#">회원가입</a>
+        </div>
+    </div>
+
+    <script>
+      document.querySelector('#login-form').addEventListener('submit', (e) =>{
+        e.preventDefault()
+
+        login_Id = document.querySelector('#login_id').value
+        password = document.querySelector('#password').value
+
+        fetch('api/auth/login',{
+          method:'post',
+          headers: {'Content-Type' : 'application/json'},
+          body : JSON.stringify({
+            id : login_Id,
+            pass : password
+          })
+        })
+        .then((resp) => resp.json())
+        .then((data) => {
+          //retCode : OK , retCode :NG
+          if(data.retCode == 'OK'){
+            alert('로그인 성공 글목록으로 이동')
+            location.href = 'board_list.html'
+          }
+          else{
+            alert('로그인 실패 아이디 혹은 비밀번호를 확인하세요')
+            location.reload()
+          }
+          
+        })
+      })
+    </script>
+</body>
+</html>

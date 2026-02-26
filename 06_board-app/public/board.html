@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>새 글 작성</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="form-container">
+        <h2>새 글 작성</h2>
+        <form action="/api/insert" method="POST" id="form">
+            <div class="form-group">
+                <label for="title">제목</label>
+                <input type="text" id="title" name="title" placeholder="제목을 입력하세요" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="author">작성자</label>
+                <input type="text" id="author" name="author" placeholder="작성자 이름" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="content">내용</label>
+                <textarea id="content" name="content" rows="6" placeholder="내용을 입력하세요" required></textarea>
+            </div>
+            
+            <button type="submit" class="submit-btn">등록하기</button>
+        </form>
+    </div>
+
+    <script>
+      document.querySelector('form').addEventListener('submit', (e) =>{
+        e.preventDefault();
+        // console.log(e)
+        const title = document.querySelector('#title').value
+        const content = document.querySelector('#content').value
+        const author = document.querySelector('#author').value
+        const postData = {title : title, content:content, writer_id:author}
+
+        fetch('./api/board', {
+        method :'post',
+        headers :{'Content-Type' : 'application/json'},
+        body : JSON.stringify(postData)
+        }
+        
+        )
+        .then((resp) => resp.json)
+        .then((data) => {
+            console.log(data)
+            location.href = 'board_list.html'
+        })
+      }
+    )
+    </script>
+</body>
+</html>

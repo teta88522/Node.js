@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="detail.css">
+</head>
+<body>
+
+    <div class="detail-container">
+        <div class="post-header">
+            <h1 class="post-title">Node.js 백엔드 재밌네요</h1>
+            <div class="post-meta">
+                <span class="author">작성자: 김코딩</span>
+                <span class="date">글번호: 3</span>
+            </div>
+        </div>
+
+        <div class="post-content">처음에는 에러가 많이 나서 당황했는데, 하나씩 고쳐가니까 작동하는 게 신기합니다.
+앞으로도 열심히 해보려고요!
+
+혹시 Express에서 라우터 파일 분리할 때 주의할 점이 있을까요?</div>
+
+        <div class="btn-group">
+            <button class="btn-list">목록으로</button>
+            
+            <div class="right-btns">
+                <a href="#" class="btn btn-edit">수정</a>
+                <button type="button" class="btn btn-delete">삭제</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+      const page = localStorage.getItem('page')
+      fetch('./api/board/' + page)
+      .then((resp) => resp.json())
+      .then((data) => {
+        const [board] = data;
+        document.querySelector('.post-title').innerText = board.title
+        document.querySelector('.author').innerText = board.name
+        document.querySelector('.date').innerText = board.board_id
+        document.querySelector('.post-content').innerText = board.content
+      })
+
+      document.querySelector('.btn-list').addEventListener('click',(e) => {
+        e.preventDefault();
+        location.href = 'board_list.html'
+      })
+    </script>
+</body>
+</html>
