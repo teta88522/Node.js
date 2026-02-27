@@ -8,18 +8,17 @@ const app = express();
 
 app.use(
   session({
-    secret: 'secret key',
-    resave : false,
-    saveUninitialized : true,
-    cookie:{
+    secret: "secret key",
+    resave: false,
+    saveUninitialized: true,
+    cookie: {
       httpOnly: true,
-      secure : true,
-      maxAge : 600000,
+      secure: false, // true=> https, false=> http
+      maxAge: 10 * 60 * 1000,
     },
-    // store: new fileStore(), // 추가
+    // store: new fileStore(), // 추가.
   }),
-)
-
+);
 app.use(express.static('public'))
 
 // json body-parser

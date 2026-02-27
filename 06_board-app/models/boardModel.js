@@ -27,4 +27,9 @@ async function BoardInsert(title,content,writer_id) {
   
 }
 
-module.exports =  { getList,getById,BoardInsert } 
+async function remove(id){
+  const sql = 'delete from tbl_board where board_id = ?'
+  return pool.query(sql,[id]);
+}
+
+module.exports =  { getList,getById,BoardInsert,remove } 

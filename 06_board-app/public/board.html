@@ -36,22 +36,42 @@
         const title = document.querySelector('#title').value
         const content = document.querySelector('#content').value
         const author = document.querySelector('#author').value
-        const postData = {title : title, content:content, writer_id:author}
+        const postData = {title : title, content:content
+                .split("\n")
+                .map((elem) => `<p>${elem}</p>`)
+                .join(""), 
+                writer_id:author}
 
+        if (!postData.title || !postData.content || !postData.writer_id) {
+            return;
+        }
+        // ajax 호출
         fetch('./api/board', {
         method :'post',
-        headers :{'Content-Type' : 'application/json'},
-        body : JSON.stringify(postData)
+        headers :{'Content-Type' : 'application/json',
+        Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+        body : JSON.stringify({
+            title:postData.title,
+            content:postData.content
+        })
         }
         
         )
-        .then((resp) => resp.json)
-        .then((data) => {
-            console.log(data)
-            location.href = 'board_list.html'
-        })
-      }
-    )
+            .then((resp) => resp.json())
+            .then((data) => {
+            if (data.retCode == "OK") {
+                // 성공 후 이동할 페이지 (글목록페이지)
+                alert("[등록 성공] 글목록으로 이동.");
+                location.href = "board_list.html";
+            } else {
+                // 실패 후 에러메세지 (결과를 화면에 출력)
+                alert(`[에러] ${data.retMsg}`);
+            }
+            })
+            .catch(console.log);
+        });
+
     </script>
 </body>
 </html>

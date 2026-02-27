@@ -11,7 +11,7 @@
     <div class="board-container">
         <div class="board-header">
             <h2>자유 게시판</h2>
-            <a href="#" class="btn-write">새 글 작성</a> 
+            <a href="board.html" class="btn-write">새 글 작성</a> 
         </div>
 
         <table>
@@ -53,6 +53,7 @@
       fetch("./api/board")
         .then((resp) => resp.json())
         .then((data) => {
+        console.log(data)
           //tr의 상위요소에 insertAdjacentHTML() 함수활용
           const parent = document.querySelector("tbody");
           parent.innerHTML = ''
@@ -63,7 +64,7 @@
             const html = `<tr>
                             <td>${board_id}</td>
                             <td class="text-left">
-                            <a href="/boardDetail.html" data-page="${board_id}">${title}.</a>
+                            <a href="/boardDetail.html" data-page="${board_id}">${title}</a>
                             </td>
                             <td>${name}</td>
                             <td>${created_at}</td>

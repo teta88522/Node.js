@@ -24,6 +24,21 @@ app.get('/download/customers', async (req,res) => {
         "email",
         "phone",
         "address"]});
-}
-)
 
+        first_Sheet["!cols"] = [
+            {wpx : 50},
+            {wpx : 200},
+            {wpx : 200},
+            {wpx : 140},
+            {wpx : 200},
+        ];
+        
+        xlsx.utils.book_append_sheet(workbook, first_Sheet,"Customers");
+
+        res.setHeader('Content-disposition', 'attachment; filename = Customer.xlsx'); // 다운
+        res.setHeader('Content-type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'); //엑셀파일 mimetype설정
+        res.end( Buffer.from(xlsx.write(workbook,{type:'base64'}),'base64'))
+}
+);
+
+// 첫 번째 시트에 작성한 데이터를 넣는다.

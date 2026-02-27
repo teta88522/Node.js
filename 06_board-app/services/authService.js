@@ -1,5 +1,6 @@
 // 업무.
 const bcrypt = require('bcrypt')
+const jwt =require('jsonwebtoken')
 const memberModel = require('../models/memberModel');
 
 
@@ -9,6 +10,7 @@ async function signup(id,name,pass,role) {
   console.log(hashed)
   return memberModel.memberInsert(id,name,hashed,role)
 }
+
 
 async function login(id,pass){
   const [rows] = await memberModel.findMemberById(id);
@@ -25,9 +27,18 @@ async function login(id,pass){
   if (!match) {
     return null;
   }
-
+  // 토큰 발행 -> 암호화 -> 반환
+  const token = jwt.sign({
+    member_id : user.member_id,
+    login_id : user.login_id,
+    name : user.name
+  },
+  'secret-token',
+  {expiresIn: "1h"}
+);
+  console.log(token)
   // 정상.
-  return true;  // token
+  return token;  // token
 }
 
 

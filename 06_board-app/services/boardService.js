@@ -17,5 +17,19 @@ async function getInsert(title,content,id) {
   return boardModel.BoardInsert(title,content,id)
 }
 
+async function remove(id,user){
+  console.log(id, user)
+  const [rows] = await boardModel.getById(id)
+  // 권한 체크
+  const board = rows[0]
+    console.log(board.writer_id)
+    console.log(user.member_id)
+    if(board.writer_id != user.member_id){
+      return 'No_Auth';
+    }
 
-module.exports = { getList,getDetail,getInsert }
+  return boardModel.remove(id)
+}
+
+
+module.exports = { getList,getDetail,getInsert, remove }

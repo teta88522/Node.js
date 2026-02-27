@@ -10,10 +10,14 @@
 
     <div class="detail-container">
         <div class="post-header">
+          <div id="member_id">asd</div>
+          <div id="writer_id">asd</div>
             <h1 class="post-title">Node.js 백엔드 재밌네요</h1>
             <div class="post-meta">
                 <span class="author">작성자: 김코딩</span>
-                <span class="date">글번호: 3</span>
+                <span class="post_no">글번호: 3</span>
+              <span class="info-item"><strong>작성일:</strong> 2024-05-20 15:45:12</span
+          >
             </div>
         </div>
 
@@ -23,30 +27,81 @@
 혹시 Express에서 라우터 파일 분리할 때 주의할 점이 있을까요?</div>
 
         <div class="btn-group">
-            <button class="btn-list">목록으로</button>
+            <button class="btn-list"><a href="board_list.html">목록으로</a></button>
             
             <div class="right-btns">
-                <a href="#" class="btn btn-edit">수정</a>
-                <button type="button" class="btn btn-delete">삭제</button>
+                <a href="#" class="btn-edit">수정</a>
+                <button type="button" class="btn-delete">삭제</button>
             </div>
         </div>
     </div>
 
+    <script src="js/board.js"></script>
     <script>
       const page = localStorage.getItem('page')
-      fetch('./api/board/' + page)
-      .then((resp) => resp.json())
-      .then((data) => {
-        const [board] = data;
-        document.querySelector('.post-title').innerText = board.title
-        document.querySelector('.author').innerText = board.name
-        document.querySelector('.date').innerText = board.board_id
-        document.querySelector('.post-content').innerText = board.content
-      })
+      console.log(page)
+      fetch("./api/board/" + page)
+        .then((resp) => resp.json())
+        .then(({user,data}) => {
+          console.log(user)
+          const [board] = data;
+          a = document.querySelector('#member_id').innerHTML =user.member_id
+          b = document.querySelector('#writer_id').innerHTML = board.writer_id
+          console.log(board)
 
-      document.querySelector('.btn-list').addEventListener('click',(e) => {
-        e.preventDefault();
-        location.href = 'board_list.html'
+          //if (member_id != writer_id)
+          // document.querySelector('.btn-delete').disabled = true;
+
+          // 글내용 출력하기.
+
+          document.querySelector(".post_no").innerHTML = "No." + board.board_id; // 글번호.
+          document.querySelector(".post-title").innerHTML = board.title; // 글제목.
+          // 글내용.
+          document.querySelector(".post-content").innerHTML = board.content;
+          // 작성자.
+          document.querySelector(".author").innerHTML =
+            `<strong>작성자:</strong> ${board.name}`;
+          // 작성일시.
+          document.querySelector(".post-meta>span:nth-of-type(3)").innerHTML =
+            `<strong>작성일:</strong> ${formatNow(board.created_at)}`;
+        })
+        .catch(console.log);
+
+      document.querySelector('.btn-delete').addEventListener('click', e =>{
+        const deleteId = document.querySelector('.post_no').value
+        fetch('./api/board/'+ page, {
+        method :'delete',
+        headers :{Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+      }
+     )
+            .then((resp) => resp.json())
+            .then((data) => {
+            if (data.retCode == "OK") {
+                // 성공 후 이동할 페이지 (글목록페이지)
+                alert("[삭제 성공] 글목록으로 이동.");
+                location.href = "board_list.html";
+            } else {
+                // 실패 후 에러메세지 (결과를 화면에 출력)
+                alert(`[에러] ${data.retMsg}`);
+            }
+            })
+            .catch(console.log);
+        });
+
+
+      document.querySelector('.btn-edit').addEventListener('click', e =>{
+
+        const mid =  document.querySelector('#member_id').innerHTML
+        const wid =  document.querySelector('#writer_id').innerHTML
+        console.log(mid)
+        if(mid==wid){
+          alert("수정페이지로 이동하빈다")
+        }
+        else {
+          alert('권한을 확인하세요')
+          return;
+        }
       })
     </script>
 </body>

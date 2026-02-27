@@ -8,4 +8,6 @@ const Authctrl = require('../controllers/authController')
 router.post("/", Authctrl.signup)
 router.post("/login", Authctrl.login)
 
+
+
 module.exports = router
